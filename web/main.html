@@ -15,9 +15,22 @@
 
     <input id="location" type="text" placeholder="Введите название страны и города" required="" value="Нью-Йорк, США">
     <button id="show">Узнать погоду</button>
-    <div class="info">
+    <div id="info"></div>
 
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        //Тут пишем JS-код для вызова Python-функций
+        async function display_weather(){
+            let place = document.getElementById('location').value;
+            //Вызываем функцию get_weather из python-кода
+            let result = await eel.get_weather(place)();
+            document.getElementById('info').innerHTML = result;
+        }
+
+        jQuery('#show').on('click', function() {
+            display_weather();
+        });
+    </script>
 
 </body>
 

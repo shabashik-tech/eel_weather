@@ -3,16 +3,17 @@
 import pyowm
 import eel
 
-eel.init('web')
-eel.start('main.html', size=(300, 300))
+owm = pyowm.OWM('59ff4e66ae7a38fcb9a7a637165a4172')
 
-# city = 'Moscow, Russia'
-# owm = pyowm.OWM('59ff4e66ae7a38fcb9a7a637165a4172')
-# manager = owm.weather_manager()
-#
-# observation = manager.weather_at_place(city)
-# weather = observation.weather
-#
-# temp = weather.temperature('celsius')['temp']
-#
-# print(f'В городе {city} сейчас {str(round(temp, 2))} градусов.')
+
+@eel.expose
+def get_weather(place):
+    manager = owm.weather_manager()
+    observation = manager.weather_at_place(place)
+    weather = observation.weather
+    temp = weather.temperature('celsius')['temp']
+    return f'В городе {place} сейчас {str(round(temp, 1))} C.'
+
+eel.init('web')
+eel.start('main.html', size=(400, 400))
+
